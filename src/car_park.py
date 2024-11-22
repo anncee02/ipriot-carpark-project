@@ -15,6 +15,12 @@ class CarPark:
         self.plates = plates or []
         self.sensors = sensors or []
         self.displays = displays or []
+        self.available_bays = self.capacity
+
+    @property
+    def get_available_bays(self):
+        # car_park.available_bays
+        return self.capacity - len(self.plates)
 
     def __str__(self):
         return f'Car park at {self.location}, with {self.capacity} bays'
@@ -40,5 +46,7 @@ class CarPark:
 
     def update_displays(self):
         for display in self.displays:
-            display.update()
+            display.update({"Bays": self.available_bays,
+                            "Temperature": 42, }
+                            )
             print(f"Updating: {display}")
