@@ -66,7 +66,7 @@ This guide provides detailed step-by-step instructions for completing the projec
 Include a screenshot of your GitHub repository **after** you have pushed your initial commit.
 
 ```markdown
-![Initial commit](images/mu_image.png)
+![Initial commit](images/github-repo.png)
 ```
 
 ### Identify classes, methods, and attributes
@@ -207,6 +207,9 @@ You realize that you need a way to configure the car park system. You decide to 
 **Additional evidencing:**
 Ensure that you have completed the previous steps and created the appropriate tags. Confirm that the tags have been created by running `git tag` in the terminal and provide a screenshot of the output.
 
+```markdown
+![Git tag output](images/git-tag-output.png)
+```
 ```bash
 [student@workstation ipriot-car-park-prj]$ git tag
 s1
