@@ -15,11 +15,9 @@ class CarPark:
         self.plates = plates or []
         self.sensors = sensors or []
         self.displays = displays or []
-        self.available_bays = self.capacity
 
     @property
-    def get_available_bays(self):
-        # car_park.available_bays
+    def available_bays(self):
         return max(0, self.capacity - len(self.plates))
 
     def __str__(self):
@@ -37,11 +35,15 @@ class CarPark:
 
 
     def add_car(self, plate):
-        self.plates.append(plate)
+        if len(self.plates) < self.capacity and plate not in self.plates:
+            self.plates.append(plate)
 
 
     def remove_car(self, plate):
-        self.plates.remove(plate)
+        if plate in self.plates:
+            self.plates.remove(plate)
+        else:
+            raise ValueError(f"Car with plate '{plate}' not found in the car park.")
 
 
     def update_displays(self):
