@@ -5,8 +5,8 @@ from pathlib import Path
 
 class TestCarPark(unittest.TestCase):
     def setUp(self):
-        self.car_park = CarPark("123 Example Street", 100)
         self.test_log_file = Path("test_log.txt")  # Defines the log file here
+        self.car_park = CarPark("123 Example Street", 100, log_file=self.test_log_file)
 
 
     def test_car_park_initialized_with_all_attributes(self):
@@ -17,7 +17,7 @@ class TestCarPark(unittest.TestCase):
         self.assertEqual(self.car_park.sensors, [])
         self.assertEqual(self.car_park.displays, [])
         self.assertEqual(self.car_park.available_bays, 100)
-        self.assertEqual(self.car_park.log_file, Path("log.txt"))
+        self.assertEqual(self.car_park.log_file, self.test_log_file)
 
 
     def test_add_car(self):
@@ -63,7 +63,6 @@ class TestCarPark(unittest.TestCase):
 
 
     def test_car_logged_when_entering(self):
-        new_carpark = CarPark("123 Example Street", 100, log_file=self.test_log_file)  # Done - TODO: change this to use a class attribute or new instance variable
         self.car_park.add_car("NEW-001")
         with self.car_park.log_file.open() as f:
             last_line = f.readlines()[-1]
@@ -73,7 +72,6 @@ class TestCarPark(unittest.TestCase):
 
 
     def test_car_logged_when_exiting(self):
-        new_carpark = CarPark("123 Example Street", 100, log_file=self.test_log_file)  # Done - TODO: change this to use a class attribute or new instance variable
         self.car_park.add_car("NEW-001")
         self.car_park.remove_car("NEW-001")
         with self.car_park.log_file.open() as f:
