@@ -130,9 +130,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# Ignore log file
-tests/log.txt
-
 # Spyder project settings
 .spyderproject
 .spyproject
