@@ -8,7 +8,7 @@ class CarPark:
                  capacity,
                  plates = None,
                  sensors = None,
-                 displays = None
+                 displays = None,
                  ):
         self.location = location
         self.capacity = capacity
