@@ -2,59 +2,68 @@ import unittest
 from car_park import CarPark
 from pathlib import Path
 
+
 class TestCarPark(unittest.TestCase):
-      def setUp(self):
-         self.car_park = CarPark("123 Example Street", 100)
-          self.test_log_file = Path("test_log.txt") # Defines the log file here
+    def setUp(self):
+        self.car_park = CarPark("123 Example Street", 100)
+        self.test_log_file = Path("test_log.txt")  # Defines the log file here
 
-      def test_car_park_initialized_with_all_attributes(self):
-         self.assertIsInstance(self.car_park, CarPark)
-         self.assertEqual(self.car_park.location, "123 Example Street")
-         self.assertEqual(self.car_park.capacity, 100)
-         self.assertEqual(self.car_park.plates, [])
-         self.assertEqual(self.car_park.sensors, [])
-         self.assertEqual(self.car_park.displays, [])
-         self.assertEqual(self.car_park.available_bays, 100)
-         self.assertEqual(self.car_park.log_file, Path("log.txt"))
 
-      def test_add_car(self):
-         self.car_park.add_car("TEST-001")
-         self.assertEqual(self.car_park.plates, ["TEST-001"])
-         self.assertEqual(self.car_park.available_bays, 99)
+    def test_car_park_initialized_with_all_attributes(self):
+        self.assertIsInstance(self.car_park, CarPark)
+        self.assertEqual(self.car_park.location, "123 Example Street")
+        self.assertEqual(self.car_park.capacity, 100)
+        self.assertEqual(self.car_park.plates, [])
+        self.assertEqual(self.car_park.sensors, [])
+        self.assertEqual(self.car_park.displays, [])
+        self.assertEqual(self.car_park.available_bays, 100)
+        self.assertEqual(self.car_park.log_file, Path("log.txt"))
 
-      def test_remove_car(self):
-         self.car_park.add_car("TEST-001")
-         self.car_park.remove_car("TEST-001")
-         self.assertEqual(self.car_park.plates, [])
-         self.assertEqual(self.car_park.available_bays, 100)
 
-      def test_overfill_the_car_park(self):
-         for i in range(100):
+    def test_add_car(self):
+        self.car_park.add_car("TEST-001")
+        self.assertEqual(self.car_park.plates, ["TEST-001"])
+        self.assertEqual(self.car_park.available_bays, 99)
+
+
+    def test_remove_car(self):
+        self.car_park.add_car("TEST-001")
+        self.car_park.remove_car("TEST-001")
+        self.assertEqual(self.car_park.plates, [])
+        self.assertEqual(self.car_park.available_bays, 100)
+
+
+    def test_overfill_the_car_park(self):
+        for i in range(100):
             self.car_park.add_car(f"TEST-{i}")
-         self.assertEqual(self.car_park.available_bays, 0)
-         self.car_park.add_car("TEST-100")
-         # Overfilling the car park should not change the number of available bays
-         self.assertEqual(self.car_park.available_bays, 0)
+        self.assertEqual(self.car_park.available_bays, 0)
+        self.car_park.add_car("TEST-100")
+        # Overfilling the car park should not change the number of available bays
+        self.assertEqual(self.car_park.available_bays, 0)
 
-        # Attempting to remove a car that does not exist should raise a ValueError
-      def test_removing_a_car_that_does_not_exist(self):
-         with self.assertRaises(ValueError):
+
+    # Attempting to remove a car that does not exist should raise a ValueError
+    def test_removing_a_car_that_does_not_exist(self):
+        with self.assertRaises(ValueError):
             self.car_park.remove_car("NO-1")
 
-      def test_register_raises_type_error(self):
-         with self.assertRaises(TypeError):
+
+    def test_register_raises_type_error(self):
+        with self.assertRaises(TypeError):
             self.car_park.register("Not a Sensor or Display")
 
-      def test_log_file_created(self):
-          new_carpark = CarPark("123 Example Street", 100, log_file=self.test_log_file)
-          self.assertTrue(Path(self.test_log_file).exists())
 
-      def tearDown(self):
-          Path("new_log.txt").unlink(missing_ok=True)
+    def test_log_file_created(self):
+        new_carpark = CarPark("123 Example Street", 100, log_file=self.test_log_file)
+        self.assertTrue(Path(self.test_log_file).exists())
 
-      def test_car_logged_when_entering(self):
-        new_carpark = CarPark("123 Example Street", 100,
-                              log_file="new_log.txt")  # TODO: change this to use a class attribute or new instance variable
+
+    def tearDown(self):
+        Path(self.test_log_file).unlink(missing_ok=True)
+
+
+    def test_car_logged_when_entering(self):
+        new_carpark = CarPark("123 Example Street", 100, log_file=self.test_log_file)  # Done - TODO: change this to use a class attribute or new instance variable
         self.car_park.add_car("NEW-001")
         with self.car_park.log_file.open() as f:
             last_line = f.readlines()[-1]
@@ -64,8 +73,7 @@ class TestCarPark(unittest.TestCase):
 
 
     def test_car_logged_when_exiting(self):
-        new_carpark = CarPark("123 Example Street", 100,
-                              log_file="new_log.txt")  # TODO: change this to use a class attribute or new instance variable
+        new_carpark = CarPark("123 Example Street", 100, log_file=self.test_log_file)  # Done - TODO: change this to use a class attribute or new instance variable
         self.car_park.add_car("NEW-001")
         self.car_park.remove_car("NEW-001")
         with self.car_park.log_file.open() as f:
@@ -75,7 +83,5 @@ class TestCarPark(unittest.TestCase):
         self.assertIn(last_line, "\n")  # check entry has a new line
 
 
-
 if __name__ == "__main__":
-   unittest.main()
-
+    unittest.main()
