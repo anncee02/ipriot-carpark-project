@@ -73,3 +73,7 @@ class CarPark:
         self.plates.remove(plate)
         self.update_displays()
         self._log_car_activity(plate, "exited")
+
+    def _log_car_activity(self, plate, action):
+        with self.log_file.open("a") as f:
+            f.write(f"{plate} {action} at {datetime.now()}\n")
