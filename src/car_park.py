@@ -1,6 +1,7 @@
+import json
+from pathlib import Path
 from sensor import Sensor
 from display import Display
-from pathlib import Path
 from datetime import datetime # we'll use this to timestamp entries
 
 class CarPark:
@@ -12,7 +13,8 @@ class CarPark:
                  plates = None,
                  sensors = None,
                  displays = None,
-                 log_file=Path("log.txt")
+                 log_file=Path("log.txt"),
+                 config_file=Path("config.json")
                  ):
         self.location = location
         self.capacity = capacity
@@ -20,8 +22,10 @@ class CarPark:
         self.sensors = sensors or []
         self.displays = displays or []
         self.log_file = log_file if isinstance(log_file, Path) else Path(log_file)
+        self.config_file = config_file if isinstance(config_file, Path) else Path(config_file)
         # creates the file if it doesn't exist:
         self.log_file.touch(exist_ok=True)
+        self.config_file.touch(exist_ok=True)
 
     @property
     def available_bays(self):
@@ -74,6 +78,23 @@ class CarPark:
         self.update_displays()
         self._log_car_activity(plate, "exited")
 
-    def _log_car_activity(self, plate, action):
-        with self.log_file.open("a") as f:
-            f.write(f"{plate} {action} at {datetime.now()}\n")
+    def write_config(self):
+        with open("config.json", "w") as f:  # Done - TODO: use self.config_file; use Path; add optional parm to __init__
+            json.dump({"location": self.location,
+                       "capacity": self.capacity,
+                       "log_file": str(self.log_file)}, f)
+
+    # ... inside the CarPark class
+    @classmethod
+    def from_config(cls, config_file=Path("config.json")):
+        config_file = config_file if isinstance(config_file, Path) else Path(config_file)
+        with config_file.open() as f:
+            config = json.load(f)
+        return cls(config["location"], config["capacity"], log_file=config["log_file"])
+
+if __name__ == "__main__":
+    car_park = CarPark("Moondalup", 100, config_file="custom_config.json")
+    car_park.write_config()
+    print(f"Configuration saved to {car_park.config_file}")
+
+
