@@ -73,11 +73,11 @@ Include a screenshot of your GitHub repository **after** you have pushed your in
 
 After reading the task requirements, you should be able to identify the classes, methods, and attributes required for the car park system. Complete the following table with the classes, methods, and attributes you must implement.
 
-| Class Name | Attributes | Methods |
-| ---------- | ---------- | ------- |
-| `CarPark`    |            |         |
-| `Sensor`     |            |         |
-| `Display`    |            |         |
+| Class Name | Attributes        | Methods                     |
+| ---------- |-------------------|-----------------------------|
+| `CarPark`    | location, sensors | __init__, register          |
+| `Sensor`     | id, car_park      | _scan_plate, detect_vehicle |
+| `Display`    | id, message       | update, __str__             |
 
 **Additional evidencing:**
 Ensure you have completed the previous table and include at least two methods and attributes for each.
@@ -373,11 +373,16 @@ You may want to see the number of available bays, the current temperature, and t
 Now consider, between the `CarPark`, `Sensor`, and `Display` classes, which class is responsible for each piece of information? There's no right or wrong answer here. But you should be able to justify your answer.
 
 >Q. Which class is responsible for the number of available bays (and why)?
+> The CarPark class is responsible for the number of available bays because it tracks the total capacity and the current number of parked vehicles. 
+> This feature is central to the car park's functionality and reflects its state being a smart parking solution.
 >
 >Q. Which class is responsible for the current temperature (and why)?
->
+> The Sensor class is responsible for the current temperature because sensors are designed to detect and report environmental conditions. 
+> Adding temperature tracking would align with the purpose of providing real-time data about the car park.
+> 
 >Q. Which class is responsible for the time (and why)?
->
+> The CarPark class is responsible for the time, specifically for logging activities (e.g car entry/exit). 
+> Given that time is critical for tracking these events, the CarPark manages it to ensure accurate records.
 --------
 
 ##### Detour: implement available bays
@@ -457,17 +462,20 @@ Answer the following questions:
 >
 > 1. **Which class is responsible for each of the following pieces of information (and why)?**
 >    - _The number of available bays_
->      `Answer here...`
+>      The CarPark class is responsible because it maintains the capacity attribute and tracks the number of parked cars through the plates list. 
 >    - _The current temperature_
->      `Answer here...`
+>      The Sensor class is responsible because sensors are designed to gather and report environmental data, such as temperature, from the car park's surroundings.
 >    - _The time_
->      `Answer here...`
+>      The CarPark class is responsible because time is crucial for logging activities, such as entry or exit.
 >
 > 2. **What is the difference between an attribute and a property?**
->    `Answer here...`
+>    An attribute is a data field directly associated with an object. It stores a value and can be accessed directly using the object.attribute syntax. 
+>    A property is a special kind of method that behaves like an attribute. It allows for controlled access to an attribute by defining custom behavior when getting, setting, or deleting its value. 
 >
 > 3. **Why do you think we used a dictionary to hold the data we passed the display? List at least one advantage and one disadvantage of this approach.**
->    `Answer here...`
+>    Advantage: Using a dictionary allows for flexible, dynamic data management without needing to modify method signatures if additional data needs to be passed. This is particularly useful as the car park system 
+>    evolves and more data points might be added (e.g., additional attributes like "occupancy rate"). 
+>    Disadvantage: A dictionary can introduce errors if expected keys are missing or if invalid data is provided, unless data validation is carefully managed.
 
 #### Add a detect vehicle method to the Sensor class
 

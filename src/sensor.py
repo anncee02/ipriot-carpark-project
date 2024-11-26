@@ -13,7 +13,7 @@ class Sensor(ABC):
         self.is_active = is_active
 
     def _scan_plate(self):
-        return "FAKE-" + format(random.radint(0, 999), '03d')
+        return "TEST-" + format(random.randint(0, 999), '03d')
 
     @abstractmethod
     def update_car_park(self, plate):
