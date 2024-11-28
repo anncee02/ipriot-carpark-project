@@ -3,11 +3,12 @@ import random
 
 
 class Sensor(ABC):
-    """Abstract base class for sensors that detect vehicle activity in the car park.
+    """Abstract base class for sensors that detect vehicle
+    activity in the car park.
 
     The Sensor class provides methods for detecting vehicles
-    and updating the car park's state. Subclasses implement the
-    update_car_park method for handling specific actions,
+    and updating the car park's state. Subclasses implement
+    the update_car_park method for handling specific actions,
     such as car entry or exit.
 
     Subclasses:

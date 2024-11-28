@@ -1,6 +1,15 @@
 
 class Display:
-    """ Provides display for timely information"""
+    """  Represents an informational display unit for a car park.
+
+    The Display class updates and shows real-time information about
+    the car park, such as the number of available parking bays or
+    other details provided by the car park system.
+
+    Methods:
+        update(data): Updates the display with the latest information
+        from the car park.
+    """
 
     def __init__(self,
                  id,
