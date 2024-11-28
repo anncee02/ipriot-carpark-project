@@ -2,17 +2,30 @@ import json
 from pathlib import Path
 from sensor import Sensor
 from display import Display
-from datetime import datetime # we'll use this to timestamp entries
+from datetime import datetime  # we'll use this to timestamp entries
+
 
 class CarPark:
-    """ Holds the state and behaviours of a car park"""
+    """
+    Manages car park state, behaviour and associated components.
+
+    The CarPark class handles the addition and removal of cars,
+    tracking the number of available parking bays and logging
+    activity. It integrates with sensors and displays to provide
+    real-time updates on the car park's status.
+
+    Usage:
+        Create an instance of the CarPark class, then register sensors and displays.
+        Use `add_car` and `remove_car` to manage cars and update the state.
+        Call `write_config` and `from_config` to persist and load configurations.
+    """
 
     def __init__(self,
                  location,
                  capacity,
-                 plates = None,
-                 sensors = None,
-                 displays = None,
+                 plates=None,
+                 sensors=None,
+                 displays=None,
                  log_file=Path("log.txt"),
                  config_file=Path("config.json")
                  ):
@@ -44,11 +57,9 @@ class CarPark:
         elif isinstance(component, Display):
             self.displays.append(component)
 
-
     def add_car(self, plate):
         if len(self.plates) < self.capacity and plate not in self.plates:
             self.plates.append(plate)
-
 
     def remove_car(self, plate):
         if plate in self.plates:
@@ -56,12 +67,11 @@ class CarPark:
         else:
             raise ValueError(f"Car with plate '{plate}' not found in the car park.")
 
-
     def update_displays(self):
         for display in self.displays:
             display.update({"Bays": self.available_bays,
                             "Temperature": 42, }
-                            )
+                           )
             print(f"Updating: {display}")
 
     def _log_car_activity(self, plate, action):
@@ -79,7 +89,8 @@ class CarPark:
         self._log_car_activity(plate, "exited")
 
     def write_config(self):
-        with open("config.json", "w") as f:  # Done - TODO: use self.config_file; use Path; add optional parm to __init__
+        with open("config.json",
+                  "w") as f:  # Done - TODO: use self.config_file; use Path; add optional parm to __init__
             json.dump({"location": self.location,
                        "capacity": self.capacity,
                        "log_file": str(self.log_file)}, f)
@@ -92,9 +103,8 @@ class CarPark:
             config = json.load(f)
         return cls(config["location"], config["capacity"], log_file=config["log_file"])
 
+
 if __name__ == "__main__":
     car_park = CarPark("Moondalup", 100, config_file="custom_config.json")
     car_park.write_config()
     print(f"Configuration saved to {car_park.config_file}")
-
-
