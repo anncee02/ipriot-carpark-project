@@ -8,5 +8,5 @@
 - Sensors accurately tracks parking bay status in real-time
 - Display updates as cars enter or exit
 - Timely information i.e. weather, community messages
-- Log cars entering and exiting in a log file 
+- Log cars entering and exiting the car park in a log file 
 - Store the configuration of a car park 
