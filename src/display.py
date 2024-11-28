@@ -1,3 +1,4 @@
+
 class Display:
     """ Provides display for timely information"""
 
